@@ -6,30 +6,37 @@ import android.widget.Spinner;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.widget.TextView;
+
+
 
 public class MainActivity extends AppCompatActivity {
 
-
-
+    private static final int PICK_IMAGE_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // Obtén una referencia al Spinner en tu actividad
         Spinner spinner = findViewById(R.id.spinner1);
 
-        // Crea un ArrayAdapter utilizando el recurso de cadena y un diseño de spinner por defecto
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.opciones_array, android.R.layout.simple_spinner_item);
+        // Obtener el array de opciones del archivo de recursos
+        String[] opciones = getResources().getStringArray(R.array.opciones_array);
 
-        // Especifica el diseño que quieres utilizar cuando se desplieguen las opciones
+        // Crear un adaptador para el Spinner usando el array de    opciones
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, opciones);
+
+        // Especificar el diseño a usar cuando se despliega el Spinner
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        // Aplica el adaptador al Spinner
+        // Asignar el adaptador al Spinner
         spinner.setAdapter(adapter);
-
-
     }
+
+
+
+
+
+
 }
+
+

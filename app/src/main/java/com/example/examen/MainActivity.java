@@ -1,4 +1,5 @@
 package com.example.examen;
+import android.graphics.Bitmap;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import Configuracion.ImageUtils;
 import Configuracion.SQLiteConexion;
 import Configuracion.Transacciones;
 
@@ -89,6 +91,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+
+
     // Método para insertar datos en la tabla personas
     private void insertarDatos(String nombre, String telefono, String nota, byte[] imagen) {
         // Crear un objeto ContentValues para almacenar los valores que queremos insertar
@@ -96,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         values.put(Transacciones.nombre, nombre);
         values.put(Transacciones.telefono, telefono);
         values.put(Transacciones.nota, nota);
-        values.put(Transacciones.imagen, imagen); // Si tienes la imagen como un array de bytes
+        //values.put(Transacciones.imagen, imagen); // Si tienes la imagen como un array de bytes
 
         // Insertar los datos en la base de datos
         long newRowId = db.insert(Transacciones.TablePersonas, null, values);
@@ -111,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
 
     // Método para mostrar un mensaje con un Toast
     private void mostrarMensaje(String mensaje) {

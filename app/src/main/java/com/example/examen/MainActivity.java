@@ -59,6 +59,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Obtén referencia al Spinner
+        Spinner spinner = findViewById(R.id.spinner1);
+
+        // Carga los elementos del Spinner desde strings.xml
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.opciones_array, // El array definido en strings.xml
+                android.R.layout.simple_spinner_item // Diseño de cada elemento del Spinner
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Diseño del menú desplegable
+        spinner.setAdapter(adapter);
 
         // Inicialización de la base de datos
         dbHelper = new SQLiteConexion(this);

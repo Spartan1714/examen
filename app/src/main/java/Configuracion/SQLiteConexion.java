@@ -5,13 +5,11 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.Nullable;
 
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+
 
 public class SQLiteConexion extends SQLiteOpenHelper {
+
     private static final String DB_NAME = "PM012024";
     private static final int DB_VERSION = 1;
 
@@ -31,4 +29,6 @@ public class SQLiteConexion extends SQLiteOpenHelper {
         db.execSQL(Transacciones.DropTablePersonas);
         onCreate(db);
     }
+
+
 }

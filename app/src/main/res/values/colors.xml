@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-</resources>
+
+
+    <resources>
+        <color name="colorPrimary">#3F51B5</color> <!-- Color primario -->
+        <color name="colorPrimaryDark">#303F9F</color> <!-- Color primario oscuro -->
+        <color name="colorAccent">#FF4081</color> <!-- Color de acento -->
+        <color name="colorTexto">#000000</color> <!-- Color de texto -->
+        <color name="colorFondo">#bf3952</color> <!-- Color de fondo -->
+    </resources>
+
+
+

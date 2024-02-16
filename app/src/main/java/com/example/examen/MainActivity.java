@@ -1,8 +1,13 @@
 package com.example.examen;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 
@@ -15,6 +20,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import Configuracion.Transacciones;
@@ -26,25 +32,17 @@ public class MainActivity extends AppCompatActivity {
     private SQLiteOpenHelper dbHelper;
     private SQLiteDatabase db;
     private EditText editTextNombre, editTextTelefono, editTextNota;
+    ImageView imageView;
+    ContactsContract.Contacts.Data data;
     private Button btnGuardar;
 
     private Transacciones transacciones;
     private static final int PICK_IMAGE_REQUEST = 1;
 
-    public void selectImageFromGallery(View view) {
-        Intent intent = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, PICK_IMAGE_REQUEST);
-    }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
 
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -57,6 +55,17 @@ public class MainActivity extends AppCompatActivity {
                 R.array.opciones_array, // El array definido en strings.xml
                 android.R.layout.simple_spinner_item // Diseño de cada elemento del Spinner
         );
+
+
+
+
+
+
+
+
+
+
+
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Diseño del menú desplegable
         spinner.setAdapter(adapter);
         editTextNombre = findViewById(R.id.TetxtNombre);
@@ -72,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 guardarContacto();
             }
+
         });
         Button btnContactosSalvados = findViewById(R.id.button3);
 
@@ -79,17 +89,36 @@ public class MainActivity extends AppCompatActivity {
 
             public void onClick(View v) {
                 // Lógica para cambiar a la actividad Activity2
-                Intent intent = new Intent(MainActivity.this, Activity2.class);
+                Intent intent = new Intent(MainActivity.this, MainActivity2.class);
                 startActivity(intent);
             }
         });
 
-
-
-
-
+// Obtener referencia al ImageView
+        imageView = findViewById(R.id.imageView);
 
     }
+    public void selectImageFromGallery(View view) {
+        Intent intent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
+            Uri selectedImageUri = data.getData();
+
+            // Aquí puedes utilizar la URI de la imagen seleccionada para mostrarla en tu ImageView
+            imageView.setImageURI(selectedImageUri);
+        }
+    }
+
+
+
+
+
+
 
     private void guardarContacto() {
         String nombre = editTextNombre.getText().toString();
@@ -118,6 +147,8 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Por favor, llene todos los campos", Toast.LENGTH_SHORT).show();
         }
     }
+
+
 
 
 

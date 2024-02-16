@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".EditarActivity">
+
+    <TextView
+        android:id="@+id/textViewNombreLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nombre:"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/editTextNombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewNombreLabel"
+        android:layout_marginTop="8dp"
+        android:hint="Ingresa el nombre" />
+
+    <TextView
+        android:id="@+id/textViewTelefonoLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextNombre"
+        android:layout_marginTop="16dp"
+        android:text="Teléfono:"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/editTextTelefono"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewTelefonoLabel"
+        android:layout_marginTop="8dp"
+        android:inputType="phone"
+        android:hint="Ingresa el teléfono" />
+
+    <TextView
+        android:id="@+id/textViewNotaLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextTelefono"
+        android:layout_marginTop="16dp"
+        android:text="Nota:"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/editTextNota"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewNotaLabel"
+        android:layout_marginTop="8dp"
+        android:inputType="textMultiLine"
+        android:minLines="3"
+        android:hint="Ingresa la nota" />
+
+    <Button
+        android:id="@+id/btnGuardar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextNota"
+        android:layout_marginTop="16dp"
+        android:text="Guardar Cambios" />
+
+</RelativeLayout>

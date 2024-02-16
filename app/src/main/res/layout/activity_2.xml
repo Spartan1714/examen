@@ -6,10 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".Activity2">
 
-    <ListView
-        android:id="@+id/listViewContactos"
+    <GridLayout
+        android:id="@+id/gridLayoutContactos"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:rowCount="0"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        tools:ignore="MissingConstraints" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,8 @@
 package com.example.examen;
-import android.graphics.Bitmap;
+import android.database.Cursor;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 
@@ -9,23 +10,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
-import androidx.appcompat.app.AppCompatActivity;
-import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import java.util.ArrayList;
 
-import java.io.ByteArrayOutputStream;
-
-import Configuracion.ImageUtils;
-import Configuracion.SQLiteConexion;
 import Configuracion.Transacciones;
 
 
@@ -34,8 +25,12 @@ public class MainActivity extends AppCompatActivity {
     // Declaración de variables
     private SQLiteOpenHelper dbHelper;
     private SQLiteDatabase db;
+    private EditText editTextNombre, editTextTelefono, editTextNota;
+    private Button btnGuardar;
 
+    private Transacciones transacciones;
     private static final int PICK_IMAGE_REQUEST = 1;
+
     public void selectImageFromGallery(View view) {
         Intent intent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -46,13 +41,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri uri = data.getData();
-            // Aquí puedes usar la Uri para mostrar la imagen seleccionada en tu aplicación
-            // Por ejemplo, puedes cargar la imagen en un ImageView
-            ImageView imageView = findViewById(R.id.imageView);
-            imageView.setImageURI(uri);
-        }
+
     }
 
     @Override
@@ -70,70 +59,72 @@ public class MainActivity extends AppCompatActivity {
         );
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Diseño del menú desplegable
         spinner.setAdapter(adapter);
+        editTextNombre = findViewById(R.id.TetxtNombre);
+        editTextTelefono = findViewById(R.id.TextPhone);
+        editTextNota = findViewById(R.id.TextNota);
+        btnGuardar = findViewById(R.id.buttonSave);
 
-        // Inicialización de la base de datos
-        dbHelper = new SQLiteConexion(this);
-        db = dbHelper.getWritableDatabase();
+        // Crear una instancia de Transacciones pasando el contexto de MainActivity
+        transacciones = new Transacciones(this);
 
-        // Obtener referencia al ImageView
-        View imageView = findViewById(R.id.imageView);
-
-        // Obtener referencia al botón Salvar Contacto
-        Button salvarContactoButton = findViewById(R.id.buttonSave);
-
-        // Configurar OnClickListener para el botón Salvar Contacto
-        salvarContactoButton.setOnClickListener(new View.OnClickListener() {
+        btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Obtener el Bitmap de la imagen del ImageView
-                Bitmap bitmap = imageView.getDrawingCache();
-
-                // Verificar si el Bitmap es nulo
-                if (bitmap != null) {
-                    // Convertir el Bitmap a una matriz de bytes
-                    byte[] imagenBytes = convertirBitmapABytes(bitmap);
-
-                    // Insertar los datos en la base de datos
-                    insertarDatos("Juan", "123456789", "Nota de ejemplo", imagenBytes);
-                } else {
-                    mostrarMensaje("Error: No se pudo obtener el Bitmap de la imagen");
-                }
+                guardarContacto();
             }
         });
+        Button btnContactosSalvados = findViewById(R.id.button3);
+
+        btnContactosSalvados.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                // Lógica para cambiar a la actividad Activity2
+                Intent intent = new Intent(MainActivity.this, Activity2.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+
+
+
     }
 
-    // Método para convertir un Bitmap a una matriz de bytes
-    private byte[] convertirBitmapABytes(Bitmap bitmap) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream); // Comprimir el Bitmap en formato PNG
-        return stream.toByteArray(); // Devolver la matriz de bytes resultante
-    }
+    private void guardarContacto() {
+        String nombre = editTextNombre.getText().toString();
+        String telefono = editTextTelefono.getText().toString();
+        String nota = editTextNota.getText().toString();
 
-    // Método para insertar datos en la tabla personas
-    private void insertarDatos(String nombre, String telefono, String nota, byte[] imagen) {
-        // Crear un objeto ContentValues para almacenar los valores que queremos insertar
-        ContentValues values = new ContentValues();
-        values.put(Transacciones.nombre, nombre);
-        values.put(Transacciones.telefono, telefono);
-        values.put(Transacciones.nota, nota);
-        values.put(Transacciones.imagen, imagen); // Guardar la imagen en la base de datos
+        // Verificar que los campos no estén vacíos
+        if (!nombre.isEmpty() && !telefono.isEmpty() && !nota.isEmpty()) {
+            // Insertar el contacto en la base de datos
+            boolean insertado = transacciones.insertarContacto(nombre, telefono, nota);
 
-        // Insertar los datos en la base de datos
-        long newRowId = db.insert(Transacciones.TablePersonas, null, values);
+            if (insertado) {
+                // Mostrar un mensaje de éxito si la inserción fue exitosa
+                Toast.makeText(this, "Contacto guardado correctamente", Toast.LENGTH_SHORT).show();
+            } else {
+                // Mostrar un mensaje de error si la inserción falló
+                Toast.makeText(this, "Error al guardar el contacto", Toast.LENGTH_SHORT).show();
+            }
 
-        // Mostrar mensaje dependiendo del resultado de la inserción
-        if (newRowId != -1) {
-            mostrarMensaje("Datos ingresados");
+            // Limpiar los campos después de guardar
+            editTextNombre.setText("");
+            editTextTelefono.setText("");
+            editTextNota.setText("");
         } else {
-            mostrarMensaje("Error al guardar los datos");
+            // Mostrar un mensaje de error o requerir al usuario que llene todos los campos
+            Toast.makeText(this, "Por favor, llene todos los campos", Toast.LENGTH_SHORT).show();
         }
     }
 
-    // Método para mostrar un mensaje con un Toast
-    private void mostrarMensaje(String mensaje) {
-        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
-    }
+
+
+
 }
+
+
 
 
 

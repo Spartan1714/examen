@@ -116,10 +116,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-
-
-
     private void guardarContacto() {
         String nombre = editTextNombre.getText().toString();
         String telefono = editTextTelefono.getText().toString();

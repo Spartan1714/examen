@@ -38,8 +38,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/textViewTelefonoLabel"
         android:layout_marginTop="8dp"
-        android:inputType="phone"
-        android:hint="Ingresa el teléfono" />
+        android:hint="Ingresa el teléfono"
+        android:inputType="phone" />
 
     <TextView
         android:id="@+id/textViewNotaLabel"
@@ -53,20 +53,39 @@
 
     <EditText
         android:id="@+id/editTextNota"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="395dp"
+        android:layout_height="56dp"
         android:layout_below="@id/textViewNotaLabel"
         android:layout_marginTop="8dp"
+        android:hint="Ingresa la nota"
         android:inputType="textMultiLine"
-        android:minLines="3"
-        android:hint="Ingresa la nota" />
+        android:minLines="3" />
+
+    <Button
+        android:id="@+id/btnCambiarFoto"
+        android:layout_width="157dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextNota"
+        android:layout_marginTop="16dp"
+        android:text="Cambiar Foto" />
 
     <Button
         android:id="@+id/btnGuardar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextNota"
+        android:layout_below="@id/btnCambiarFoto"
         android:layout_marginTop="16dp"
         android:text="Guardar Cambios" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="200dp"
+        android:layout_height="151dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="500dp"
+        android:layout_marginRight="10dp"/>
+
+
+
 
 </RelativeLayout>

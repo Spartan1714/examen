@@ -1,21 +1,30 @@
 package com.example.examen;
 
+import static Configuracion.Transacciones.imagen;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
+
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Space;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import Configuracion.SQLiteConexion;
 import Configuracion.Transacciones;
@@ -24,6 +33,7 @@ public class MainActivity2 extends AppCompatActivity {
 
     private Transacciones transacciones;
     private LinearLayout container;
+    Uri uri;
 
     SQLiteConexion dbHelper = new SQLiteConexion(this); // Asegúrate de pasar el contexto adecuado
 
@@ -37,6 +47,9 @@ public class MainActivity2 extends AppCompatActivity {
 
 
 
+
+
+
         // Obtener los registros de la base de datos y mostrarlos en el LinearLayout
         Cursor cursor = Transacciones.obtenerTodosLosContactos();
         if (cursor != null) {
@@ -44,13 +57,14 @@ public class MainActivity2 extends AppCompatActivity {
                 @SuppressLint("Range") String nombre = cursor.getString(cursor.getColumnIndex("nombre"));
                 @SuppressLint("Range") String telefono = cursor.getString(cursor.getColumnIndex("telefono"));
                 @SuppressLint("Range") String nota = cursor.getString(cursor.getColumnIndex("nota"));
+                @SuppressLint("Range") String imagen = cursor.getString(cursor.getColumnIndex("imagen"));
 
                 // Crear un TextView para mostrar los datos del registro
                 TextView textView = new TextView(this);
-                textView.setText("Nombre: " + nombre + "\nTeléfono: " + telefono + "\nNota: " + nota);
+                textView.setText("Nombre: " + nombre + "\nTeléfono: " + telefono + "\nNota: " + nota );
 
                 TextView textView2 = new TextView(this);
-                textView2.setText("Nombre: " + nombre + "\nTeléfono: " + telefono + "\nNota: " + nota);
+                textView2.setText("Nombre: " + nombre + "\nTeléfono: " + telefono + "\nNota: " + nota );
 
                 // Agregar el TextView al contenedor
                 container.addView(textView);
@@ -74,18 +88,21 @@ public class MainActivity2 extends AppCompatActivity {
                 textView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // Aquí puedes realizar la acción deseada cuando se hace clic en el registro
-                        // Por ejemplo, mostrar un diálogo para editar o eliminar el registro
-                        mostrarDialogoEditarEliminar(nombre, telefono, nota);
+
+                        mostrarDialogoEditarEliminar(nombre, telefono, nota,imagen);
                     }
                 });
             }
             cursor.close();
         }
+
+
     }
 
+
+
     // Método para mostrar un diálogo para editar o eliminar el registro seleccionado
-    private void mostrarDialogoEditarEliminar(final String nombre, final String telefono, final String nota) {
+    private void mostrarDialogoEditarEliminar(final String nombre, final String telefono, final String nota, final String imagen) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("¿Qué acción deseas realizar con este registro?")
                 .setPositiveButton("Editar", new DialogInterface.OnClickListener() {
@@ -98,9 +115,18 @@ public class MainActivity2 extends AppCompatActivity {
                         intent.putExtra("nombre", nombre);
                         intent.putExtra("telefono", telefono);
                         intent.putExtra("nota", nota);
+                        intent.putExtra("rutaImagen", imagen); // rutaImagen es la ruta de la imagen desde la base de datos
                         startActivity(intent);
+
+                        //Toast.makeText(MainActivity2.this, "Ruta" + imagen, Toast.LENGTH_SHORT).show();
+
                     }
+
+
+
                 })
+
+
                 .setNegativeButton("Eliminar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -110,27 +136,25 @@ public class MainActivity2 extends AppCompatActivity {
                         recreate();
                     }
                 })
-                .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                .setNeutralButton("Llamar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // Acción neutral, no se realiza ninguna acción
+
+                      Intent intent=new Intent(Intent.ACTION_DIAL,Uri.parse("tel:"+telefono));
+                      startActivity(intent);
+
                     }
+
                 });
+
         builder.create().show();
     }
 
 
-    // Método para manejar el clic en el botón "Eliminar"
-    public void eliminarRegistro(View view) {
-        // Este método no es necesario ya que la lógica de eliminación está en el diálogo de confirmación
-    }
-
-    // Método para manejar el clic en el botón "Editar"
-    public void editarRegistro(View view) {
-        // Este método no es necesario ya que la lógica de edición está en el diálogo de confirmación
-    }
 
 
 
 }
+
+
 

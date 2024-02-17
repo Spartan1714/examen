@@ -7,9 +7,9 @@
     <string-array name="opciones_array">
 
         <item>Honduras(504)</item>
-        <item>Costa Rica</item>
+        <item>Costa Rica(506)</item>
         <item>Guatemala(502)</item>
-        <item>El Salvador</item>
+        <item>El Salvador(503)</item>
         <!-- Agrega más opciones según sea necesario -->
     </string-array>
     <string name="title_activity_scrolling">ScrollingActivity</string>

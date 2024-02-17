@@ -61,10 +61,10 @@ public class MainActivity2 extends AppCompatActivity {
 
                 // Crear un TextView para mostrar los datos del registro
                 TextView textView = new TextView(this);
-                textView.setText("Nombre: " + nombre + "\nTeléfono: " + telefono + "\nNota: " + nota );
+                textView.setText("Nombre: " + nombre + "\nTeléfono: " + telefono + "\nNota: " + nota+"\nNota: "+imagen );
 
-                TextView textView2 = new TextView(this);
-                textView2.setText("Nombre: " + nombre + "\nTeléfono: " + telefono + "\nNota: " + nota );
+               // TextView textView2 = new TextView(this);
+               // textView2.setText("Nombre: " + nombre + "\nTeléfono: " + telefono + "\nNota: " + nota );
 
                 // Agregar el TextView al contenedor
                 container.addView(textView);
